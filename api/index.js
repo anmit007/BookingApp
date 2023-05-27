@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const hotelRoutes = require('./routes/hotels');
+const roomRoutes = require('./routes/rooms');
 const cookieParser = require('cookie-parser')
 
 
@@ -36,7 +37,7 @@ app.use(express.json())
 app.use("/api/auth",authRoutes);
 app.use("/api/hotels",hotelRoutes);
 app.use("/api/users",userRoutes);
-
+app.use("/api/rooms",roomRoutes);
 
 app.use((err,req,res,next)=>{
     const errorStatus = err.status || 500

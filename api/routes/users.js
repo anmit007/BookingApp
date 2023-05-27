@@ -9,7 +9,7 @@ const {getAllUsers} = require('../controllers/userController')
 
 const router = express.Router();
 
-const {verifyToken} = require('../utils/verifyToken');
+const {verifyToken, verifyAdmin} = require('../utils/verifyToken');
 const {verifyUser} = require('../utils/verifyToken');
 
 
@@ -20,19 +20,21 @@ router.get('/checkauth',verifyToken,(req,res,next)=>{
 router.get('/checkuser/:id',verifyUser,(req,res,next)=>{
     res.send("Hello User, You are logged in and you can delete your account");
 })
+router.get('/checkAdmin/:id',verifyAdmin,(req,res,next)=>{
+    res.send("Hello Admin, You are logged in and you can delete all accounts");
+})
 
 
 
-// create
-router.post("/",createUser);
+
 // update
-router.put("/:id",updateUser);
+router.put("/:id",verifyUser,updateUser);
 //delete
-router.delete("/:id",deleteUser);
+router.delete("/:id",verifyUser,deleteUser);
 //get
-router.get("/:id",getUser)
+router.get("/:id",verifyUser,getUser)
 //getAll
-router.get("/",getAllUsers)
+router.get("/",verifyAdmin,getAllUsers)
 
 
 

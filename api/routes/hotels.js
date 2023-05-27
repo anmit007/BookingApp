@@ -8,14 +8,14 @@ const {getHotel} = require('../controllers/hotelController')
 const {getAllHotels} = require('../controllers/hotelController')
 const router = express.Router();
 
-
+const {verifyAdmin,verifyUser} = require('../utils/verifyToken');
 
 // create
-router.post("/",createHotel);
+router.post("/",verifyAdmin ,createHotel);
 // update
-router.put("/:id",updateHotel);
+router.put("/:id",verifyAdmin,updateHotel);
 //delete
-router.delete("/:id",deleteHotel);
+router.delete("/:id",verifyAdmin,deleteHotel);
 //get
 router.get("/:id",getHotel)
 //getAll
