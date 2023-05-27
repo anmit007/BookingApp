@@ -2,8 +2,9 @@ const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 const hotelRoutes = require('./routes/hotels');
-
+const cookieParser = require('cookie-parser')
 
 
 
@@ -30,9 +31,12 @@ mongoose.connection.on("connected" , ()=>{
 })
 
 // middle wares
+app.use(cookieParser());
 app.use(express.json())
-app.use("/auth",authRoutes);
+app.use("/api/auth",authRoutes);
 app.use("/api/hotels",hotelRoutes);
+app.use("/api/users",userRoutes);
+
 
 app.use((err,req,res,next)=>{
     const errorStatus = err.status || 500

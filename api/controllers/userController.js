@@ -1,0 +1,61 @@
+const express = require('express');
+const User = require('../models/User');
+
+const createUser = async(req,res,next)=>{
+
+    const newUser = new User(req.body)
+
+    try {
+        const savedUser = await newUser.save();
+        res.status(200).json(savedUser);
+    } catch (err) {
+        next(err);
+    }
+};
+
+const updateUser = async(req,res,next)=>{
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.params.id,{$set: req.body},{new:true});
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json(error);
+        throw error;
+    }
+
+}
+
+const deleteUser = async(req,res,next)=>{
+    try {
+        await User.findByIdAndDelete(req.params.id);
+       res.status(200).json("User Entry deleted Succesfully");
+   } catch (error) {
+       res.status(500).json(error);
+       throw error;
+   }
+}
+const getUser = async(req,res,next)=>{
+    try {
+        const getUser = await User.findById(req.params.id);
+        res.status(200).json(getUser);
+    } catch (error) {
+        res.status(500).json(error);
+        throw error;
+    }
+}
+
+const getAllUsers = async(req,res,next)=>{
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (err) {
+        next(err);
+
+    }
+}
+module.exports = {
+    createUser,
+    updateUser,
+    deleteUser,
+    getUser,
+    getAllUsers
+}
